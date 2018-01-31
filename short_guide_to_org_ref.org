@@ -1,0 +1,161 @@
+#+LaTeX_CLASS: iitbreport
+#+OPTIONS: toc:nil
+#+OPTIONS: author:nil date:nil title:nil
+#+LaTeX_CLASS_OPTIONS: [twoside, 10pt]
+#+LATEX_HEADER: \begin{document}
+#+LATEX_HEADER: \pagenumbering{roman}
+#+LATEX_HEADER: \setcounter{page}{1}
+#+LATEX_HEADER: \title{Smoothed Particle Hydrodynamics and Discrete Element Method Coupling}
+#+LATEX_HEADER: \author{Dinesh A}
+#+LATEX_HEADER: \reporttype{A Dissertation}
+#+LATEX_HEADER: \degree{Doctor of Philosophy}
+#+LATEX_HEADER: \dept{Department of Aerospace Engineering}
+#+LATEX_HEADER: \rollnum{Roll No. 153010009}
+#+LATEX_HEADER: \maketitle
+
+#+LATEX_HEADER: \dedication[Dedicated to *Bale*]
+#+LATEX_HEADER: \makecertificate{dissertation}
+#+LATEX_HEADER: \include{dec}
+#+LATEX_HEADER: \include{abs}
+#+LATEX_HEADER: \notations[4cm]{List of Symbols}
+
+#+LATEX_HEADER: \makecontents % Creats toc, lof, and lot
+#+LATEX_HEADER: \pagenumbering{roman}
+
+#+LATEX_HEADER: \cleardoublepage
+#+LATEX_HEADER: \setcounter{page}{1}
+
+#+LATEX_HEADER: \renewcommand\maketitle{}
+
+#+LATEX: \pagenumbering{arabic}
+
+
+* Report writing using org-ref
+  label:ch:1
+** Citing a paper
+   In order to cite a paper, first one needs to save all the *bibtex*
+   entries in a file, say *references.bib*. To have access in all the
+   devises one can store that file in *dropbox* or *drive*.
+
+   Then we can make org-ref to see this by writing the following line
+   in *.emacs* file or *init.el* file.
+
+   #+BEGIN_SRC lisp
+     (setq reftex-default-bibliography '("~/Dropbox/Research/references.bib"))
+   #+END_SRC
+
+   Detail code is available at
+   https://github.com/dineshadepu/code/blob/snapshot/common/emacs_setup/init.el.
+
+   After setting up the background for references one needs to type
+   *C-c ]*.  Which brings up all the references in the provided
+   *reference.bib* file.
+
+   Searching for a keyword will bring up the requisite paper(s), which can be
+   selected and cited.
+
+   cite:hoover-1994-molec-dynam
+
+   At the bottom of the file specify the bibliography style, and bibiliography
+   file name.
+
+   #+NAME: example
+   #+BEGIN_EXAMPLE
+       bibliography:./references.bib
+       bibliographystyle:./authyr.bst
+   #+END_EXAMPLE
+*** Note
+    1. For the following example, I used a reference bibtex file,
+       placed locally at the folder, rather than placing it in the
+       dropbox or some sync folder. The bibliography style used here
+       is not *plain*, it is a specified style as in *authyr* file.
+    2. If you want to use your own style, place such specific *<some>.bst* file
+       in the root folder, and name it in the file.
+
+
+
+** Selecting more papers
+   Suppose we want to cite more papers at a single point, one has to
+   select all the references using control-space i.e., *C-spc*, and
+   navigating through the rows and selecting all the references,
+   finally press *enter*.
+
+   cite:hoover-1994-molec-dynam,hernquist-1993-some-caution,hernquist-1989-trees-unific,petschek-1993-cylin-smoot
+
+
+** Changing a cite type.
+   Suppose I want to change the cite type, till now we saw *cite:<some
+   reference>*, now we want something like
+   citeauthor:hoover-1994-molec-dynam i.e., citing with author name.
+   which in general is *citeauthor:hoover-1994-molec-dynam*. This can
+   be done by clicking *C-u ENTER*, then we get many types of cites,
+   and we can choose any one of them.
+
+
+
+
+
+* Labelling chapters, equations, figures etc..
+** Label a chapter, section, subsection
+   In order to label a chapter we can use the function
+
+
+   #+BEGIN_SRC lisp
+     org-ref-helm-insert-label-link
+   #+END_SRC
+
+   # <<equation:pcisph>>
+   \begin{equation}
+   \label{equation:pcisph}%
+   E = mc^{2}
+   \end{equation}
+
+
+   ref:equation:pcisph
+   By invoking mini buffer using *M-x*, and typing the function.  To
+   avoid frequent typing of such function, we can use leader key to
+   bind to a specific key.
+  - To cite a section or figure or a table, first give it a label.
+    Here I am plotting a $sin$ curve using python.
+
+    #+CAPTION: sin vs x in python label:fig:sin
+    #+ATTR_LaTeX: scale=0.75
+    [[./sin.png]]
+
+   nameref:lisp
+** Label figure and equation
+   To label a equation, we can use the org mode equation formal,
+   in the second line we can add the label link as following.
+
+
+   #+BEGIN_EXAMPLE
+       \begin{equation}
+         \label{equation:pcisph}%
+         E = mc^{2}
+       \end{equation}
+   #+END_EXAMPLE
+
+   But figure is labelled in a different way. Either we can use latex
+   to insert a figure and label it inside its source blocks or explicitly
+   use org functionality.
+
+   #+BEGIN_EXAMPLE
+       #+CAPTION: this is a figure label:fig:figure
+       #+ATTR_LaTeX: scale=0.75
+   #+END_EXAMPLE
+
+   - Always try to use $label:fig:some$ functionality. Which will
+     simply inserts labels in the document, which helps us to cite the
+     line number page number and everything.
+
+* Referring a label
+  label:ch3
+  To refer a label, type *C-u C-c ]*, which pops a mini buffer with all the
+  available labels to refer. To change a referred label name, use *C-u Ret*
+  while selecting such a label, to change the refer type.
+
+
+
+
+bibliography:./references.bib
+bibliographystyle:iitbauthyr
